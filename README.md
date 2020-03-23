@@ -1,2 +1,3 @@
 # Algorithms
+
 DSA Practice
