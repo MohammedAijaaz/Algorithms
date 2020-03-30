@@ -1,3 +1,9 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(__file__))
+
+
 class Item:
 
     def __init__(self, name, priority):
@@ -31,6 +37,11 @@ class PriorityQueue:
     def parent(self, index):
         return (index - 1)//2
 
+    def isEmpty(self):
+        if len(self.items) == 0:
+            return True
+        return False
+
     def reorderTop(self, index):
         while index != 0 and self.items[self.parent(index)].priority > self.items[index].priority:
             self.swap(self.parent(index), index)
@@ -44,12 +55,15 @@ class PriorityQueue:
 
     @prints
     def pop(self):
-        item = self.items[0]
-        self.items[0] = self.items[-1]
-        self.items.pop(-1)
-        self.heapify(0)
-        print("Pop: ", item)
-        return item
+        if not self.isEmpty():
+            item = self.items[0]
+            self.items[0] = self.items[-1]
+            self.items.pop(-1)
+            self.heapify(0)
+            print("Pop: ", item)
+            return item
+        else:
+            raise Exception("Empty!")
 
     def heapify(self, index=0):
         itemIndex = index
