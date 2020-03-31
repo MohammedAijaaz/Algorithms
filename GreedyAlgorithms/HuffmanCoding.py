@@ -41,6 +41,17 @@ class Huffman:
         self.renderTree(root.left, s + "0")
         self.renderTree(root.right, s + "1")
 
+    def decode(self, root, code):
+
+        if root.left == None and root.right == None:
+            print(root.name)
+            return root.name
+
+        if code[0] == '0':
+            self.decode(root.left, code[1:])
+        elif code[0] == '1':
+            self.decode(root.right, code[1:])
+
     def buildTree(self):
 
         # insert all unique chars first
@@ -106,6 +117,7 @@ def main():
     huffman = Huffman(s)
     huffman.buildTree()
     huffman.renderTree(huffman.root, "")
+    huffman.decode(huffman.root, "1101")
 
     sortedHuffman = SortedHuffam()
     root = sortedHuffman.buildTree()
