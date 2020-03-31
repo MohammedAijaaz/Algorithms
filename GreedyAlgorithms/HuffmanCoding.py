@@ -48,7 +48,6 @@ class Huffman:
             item = ItemLR(k, v)
             self.pqueue.insert(item)
 
-        print(self.pqueue)
         while len(self.pqueue.items) > 1:
             x = self.pqueue.pop()
             y = self.pqueue.pop()
@@ -59,16 +58,58 @@ class Huffman:
 
             self.pqueue.insert(z)
 
-        print(z)
+
+class SortedHuffam():
+
+    def __init__(self):
+        super().__init__()
+
+        self.source_frequencies = [ItemLR('a', 5), ItemLR('b', 9), ItemLR(
+            'c', 12), ItemLR('d', 13), ItemLR('e', 16), ItemLR('f', 45)]
+        self.queue1 = []
+        self.queue2 = []
+
+        self.buildTree()
+
+    def getMinItem(self):
+        if len(self.queue2) == 0:
+            return self.queue1.pop(0)
+        elif len(self.queue1) == 0:
+            return self.queue2.pop(0)
+
+        if self.queue1[0].priority < self.queue2[0].priority:
+            return self.queue1.pop(0)
+        return self.queue2.pop(0)
+
+    def buildTree(self):
+
+        # push all items to queue1
+
+        for item in self.source_frequencies:
+            self.queue1.append(item)
+
+        while len(self.queue1) > 0 and len(self.queue2) >= 0:
+
+            x = self.getMinItem()
+            y = self.getMinItem()
+            z = ItemLR('_', x.priority + y.priority)
+            z.left = x
+            z.right = y
+            self.queue2.append(z)
+
+        return self.queue2[0]
 
 
 def main():
 
     s = "a"*5 + "b"*9 + "c"*12 + "d"*13 + "e"*16 + "f"*45
-    print(s)
     huffman = Huffman(s)
     huffman.buildTree()
     huffman.renderTree(huffman.root, "")
+
+    sortedHuffman = SortedHuffam()
+    root = sortedHuffman.buildTree()
+    huffman.renderTree(root, "")
 
 
 if __name__ == "__main__":
